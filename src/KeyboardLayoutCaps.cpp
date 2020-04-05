@@ -73,9 +73,12 @@ HWND RemoteGetFocus() {
     HWND hwnd = GetForegroundWindow();
     DWORD remoteThreadId = GetWindowThreadProcessId(hwnd, NULL);
     DWORD currentThreadId = GetCurrentThreadId();
+
     AttachThreadInput(remoteThreadId, currentThreadId, TRUE);
     HWND focused = GetFocus();
     AttachThreadInput(remoteThreadId, currentThreadId, FALSE);
+
+    if (!focused) return hwnd;
     return focused;
 }
 
